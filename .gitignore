@@ -22,3 +22,9 @@ data/faiss/*
 !data/processed/.gitkeep
 !data/faiss/.gitkeep
 
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+

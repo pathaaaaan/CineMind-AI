@@ -12,6 +12,13 @@ class WatchlistAddRequest(BaseModel):
     notes: str | None = Field(default=None, max_length=1000)
 
 
+class WatchlistAddTmdbRequest(BaseModel):
+    tmdb_id: int
+    media_type: str = Field(..., pattern="^(movie|tv)$")
+    status: str = Field(default="saved", pattern="^(saved|favorite|watched)$")
+    notes: str | None = Field(default=None, max_length=1000)
+
+
 class WatchlistItemRead(BaseModel):
     id: UUID
     status: str

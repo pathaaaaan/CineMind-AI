@@ -1,7 +1,8 @@
-import { Film, Heart, LayoutDashboard, Search, Sparkles } from "lucide-react";
+import { Film, Heart, LayoutDashboard, Search, Sparkles, TrendingUp } from "lucide-react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 
 const nav = [
+  { to: "/top-rated", label: "Top 250", icon: TrendingUp },
   { to: "/search", label: "Discover", icon: Search },
   { to: "/watchlist", label: "Watchlist", icon: Heart },
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard }

@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from app.db.session import get_db
 from app.dependencies import get_current_user
 from app.models.user import User
-from app.schemas.watchlist import WatchlistAddRequest, WatchlistResponse
+from app.schemas.watchlist import WatchlistAddRequest, WatchlistAddTmdbRequest, WatchlistResponse
 from app.services.watchlist_service import WatchlistService
 
 
@@ -20,6 +20,15 @@ def add_to_watchlist(
     current_user: User = Depends(get_current_user),
 ) -> dict[str, str]:
     return WatchlistService(db).add(current_user, payload)
+
+
+@router.post("/add_tmdb")
+def add_to_watchlist_tmdb(
+    payload: WatchlistAddTmdbRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> dict[str, str]:
+    return WatchlistService(db).add_tmdb(current_user, payload)
 
 
 @router.get("", response_model=WatchlistResponse)

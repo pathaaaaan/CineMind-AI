@@ -5,7 +5,7 @@ from slowapi.errors import RateLimitExceeded
 
 from app.core.config import settings
 from app.core.rate_limit import limiter
-from app.routers import auth, dashboard, movies, rag, watchlist
+from app.routers import auth, dashboard, movies, rag, watchlist, tmdb
 
 
 app = FastAPI(title=settings.app_name, version="0.1.0")
@@ -25,6 +25,7 @@ app.include_router(movies.router, prefix="/api/movies", tags=["movies"])
 app.include_router(rag.router, prefix="/api/rag", tags=["rag"])
 app.include_router(watchlist.router, prefix="/api/watchlist", tags=["watchlist"])
 app.include_router(dashboard.router, prefix="/api/dashboard", tags=["dashboard"])
+app.include_router(tmdb.router, prefix="/api/tmdb", tags=["tmdb"])
 
 
 @app.get("/health")
