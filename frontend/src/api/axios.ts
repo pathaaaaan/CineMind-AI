@@ -12,3 +12,14 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const requestUrl = error.config?.url ?? "";
+    if (error.response?.status === 401 && !requestUrl.endsWith("/auth/login")) {
+      localStorage.removeItem("cinemind_token");
+      window.dispatchEvent(new Event("cinemind:unauthorized"));
+    }
+    return Promise.reject(error);
+  }
+);

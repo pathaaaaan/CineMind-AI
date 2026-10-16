@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import { AppShell } from "../components/layout/app-shell";
+import { ProtectedRoute } from "../components/auth/protected-route";
 import { DashboardPage } from "../pages/dashboard";
 import { HomePage } from "../pages/home";
 import { LoginPage } from "../pages/login";
@@ -20,8 +21,10 @@ export function AppRouter() {
           <Route path="/show/:type/:id" element={<ShowDetailPage />} />
           <Route path="/movies/:id" element={<ShowDetailPage defaultType="movie" />} />
           <Route path="/top-rated" element={<TopRatedPage />} />
-          <Route path="/watchlist" element={<WatchlistPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/watchlist" element={<WatchlistPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+          </Route>
         </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
@@ -30,4 +33,3 @@ export function AppRouter() {
     </BrowserRouter>
   );
 }
-

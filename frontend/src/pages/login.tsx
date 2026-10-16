@@ -2,12 +2,14 @@ import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { login } from "../api/auth.api";
+import { useAuth } from "../app/auth-provider";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const { signIn } = useAuth();
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -15,7 +17,7 @@ export function LoginPage() {
     event.preventDefault();
     setError("");
     try {
-      await login({ email, password });
+      await signIn({ identifier, password });
       navigate("/dashboard");
     } catch (err: any) {
       const message = err.response?.data?.detail || "Invalid email or password.";
@@ -33,7 +35,7 @@ export function LoginPage() {
       <form onSubmit={handleSubmit} className="w-full max-w-md rounded-lg border border-border bg-muted p-6 shadow-sm">
         <h1 className="text-2xl font-semibold">Sign in</h1>
         <div className="mt-6 grid gap-3">
-          <Input type="text" placeholder="Email or Username" value={email} onChange={(event) => setEmail(event.target.value)} required />
+          <Input type="text" placeholder="Email or Username" value={identifier} onChange={(event) => setIdentifier(event.target.value)} required />
           <Input type="password" placeholder="Password" value={password} onChange={(event) => setPassword(event.target.value)} required />
           {error ? <p className="text-sm text-red-700">{error}</p> : null}
           <Button>Sign in</Button>
@@ -45,4 +47,3 @@ export function LoginPage() {
     </main>
   );
 }
-

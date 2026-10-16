@@ -14,15 +14,28 @@ class UserRepository:
         return self.db.get(User, user_id)
 
     def get_by_email(self, email: str) -> User | None:
-        return self.db.scalar(select(User).where(User.email == email))
+        return self.db.scalar(select(User).where(User.email == email.strip().lower()))
 
     def get_by_username(self, username: str) -> User | None:
-        return self.db.scalar(select(User).where(User.username == username))
+        return self.db.scalar(select(User).where(User.username == username.strip().lower()))
 
-    def create(self, *, email: str, username: str, hashed_password: str, full_name: str | None) -> User:
-        user = User(email=email, username=username, hashed_password=hashed_password, full_name=full_name)
+    def create(
+        self,
+        *,
+        email: str,
+        username: str,
+        hashed_password: str,
+        full_name: str | None,
+        role: str = "user",
+    ) -> User:
+        user = User(
+            email=email.strip().lower(),
+            username=username.strip().lower(),
+            hashed_password=hashed_password,
+            full_name=full_name,
+            role=role,
+        )
         self.db.add(user)
         self.db.commit()
         self.db.refresh(user)
         return user
-

@@ -1,12 +1,14 @@
 import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { login, register } from "../api/auth.api";
+import { register } from "../api/auth.api";
+import { useAuth } from "../app/auth-provider";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 
 export function RegisterPage() {
   const navigate = useNavigate();
+  const { signIn } = useAuth();
   const [form, setForm] = useState({ full_name: "", username: "", email: "", password: "" });
   const [error, setError] = useState("");
 
@@ -15,7 +17,7 @@ export function RegisterPage() {
     setError("");
     try {
       await register(form);
-      await login({ email: form.email, password: form.password });
+      await signIn({ identifier: form.email, password: form.password });
       navigate("/dashboard");
     } catch (err: any) {
       const message = err.response?.data?.detail || "Could not create account. Try a different email or username.";
@@ -47,4 +49,3 @@ export function RegisterPage() {
     </main>
   );
 }
-

@@ -1,5 +1,6 @@
 import { Film, Heart, LayoutDashboard, Search, Sparkles, TrendingUp } from "lucide-react";
 import { Link, NavLink, Outlet } from "react-router-dom";
+import { useAuth } from "../../app/auth-provider";
 
 const nav = [
   { to: "/top-rated", label: "Top 250", icon: TrendingUp },
@@ -9,6 +10,8 @@ const nav = [
 ];
 
 export function AppShell() {
+  const { isAuthenticated, signOut } = useAuth();
+
   return (
     <div className="min-h-screen">
       <header className="border-b border-border bg-background/85 backdrop-blur">
@@ -34,10 +37,21 @@ export function AppShell() {
                 <span className="hidden sm:inline">{item.label}</span>
               </NavLink>
             ))}
-            <Link to="/login" className="ml-2 inline-flex items-center gap-2 rounded-md bg-accent px-3 py-2 text-sm font-medium text-accent-foreground">
-              <Sparkles size={16} />
-              <span className="hidden sm:inline">Sign in</span>
-            </Link>
+            {isAuthenticated ? (
+              <button
+                type="button"
+                onClick={signOut}
+                className="ml-2 inline-flex items-center gap-2 rounded-md bg-accent px-3 py-2 text-sm font-medium text-accent-foreground"
+              >
+                <Sparkles size={16} />
+                <span className="hidden sm:inline">Sign out</span>
+              </button>
+            ) : (
+              <Link to="/login" className="ml-2 inline-flex items-center gap-2 rounded-md bg-accent px-3 py-2 text-sm font-medium text-accent-foreground">
+                <Sparkles size={16} />
+                <span className="hidden sm:inline">Sign in</span>
+              </Link>
+            )}
           </nav>
         </div>
       </header>
@@ -47,4 +61,3 @@ export function AppShell() {
     </div>
   );
 }
-

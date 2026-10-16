@@ -23,9 +23,14 @@ def get_current_user(
     subject = decode_access_token(credentials.credentials)
     if not subject:
         raise unauthorized("Invalid or expired token")
-    user = UserRepository(db).get_by_id(UUID(subject))
+    try:
+        user = UserRepository(db).get_by_id(UUID(subject))
+    except ValueError:
+        raise unauthorized("Invalid or expired token") from None
     if not user:
         raise unauthorized("User no longer exists")
+    if not user.is_active:
+        raise unauthorized("User account is inactive")
     return user
 
 
@@ -37,6 +42,13 @@ def get_optional_user(
         return None
     subject = decode_access_token(credentials.credentials)
     if not subject:
-        return None
-    return UserRepository(db).get_by_id(UUID(subject))
-
+        raise unauthorized("Invalid or expired token")
+    try:
+        user = UserRepository(db).get_by_id(UUID(subject))
+    except ValueError:
+        raise unauthorized("Invalid or expired token") from None
+    if not user:
+        raise unauthorized("User no longer exists")
+    if not user.is_active:
+        raise unauthorized("User account is inactive")
+    return user
