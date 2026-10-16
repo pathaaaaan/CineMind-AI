@@ -2,6 +2,12 @@
 .env
 .env.*
 !.env.example
+*.pem
+*.key
+*.crt
+credentials.json
+service-account*.json
+secrets*.json
 __pycache__/
 *.py[cod]
 .pytest_cache/
@@ -26,5 +32,4 @@ data/faiss/*
 *.db
 *.sqlite
 *.sqlite3
-
 

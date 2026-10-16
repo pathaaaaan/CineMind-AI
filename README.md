@@ -142,6 +142,20 @@ pytest
 
 ---
 
+To run the frontend build:
+
+```bash
+cd frontend
+npm ci
+npm run build
+```
+
+The repository includes a sanitized `backend/.env.example`. Copy it to
+`backend/.env`, replace all placeholders with local values, and never commit or
+share the real environment file. Credentials previously present in the
+example file must be rotated before production use. Production startup rejects
+the insecure default JWT secret and local SQLite configuration.
+
 ## 🔍 Semantic Search & RAG Flow
 
 1. **Document Embedding**: Movies are represented as semantic documents containing concatenated attributes (title, tagline, overview, genres, directors, cast, and cleaned notebook keywords).
